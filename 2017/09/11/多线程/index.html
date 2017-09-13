@@ -1,325 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>多线程 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  
-  
-  
-  <meta name="description" content="多线程即在同一时间，可以做多件事情。  三种方法：一、继承线程类使用多线程，就可以做到盖伦在攻击提莫的同时，赏金猎人也在攻击盲僧设计一个类KillThread 继承Thread，并且重写run方法启动线程办法： 实例化一个KillThread对象，并且调用其start方法就可以观察到 赏金猎人攻击盲僧的同时，盖伦也在攻击提莫 1234567891011121314151617181920packa">
-<meta property="og:type" content="article">
-<meta property="og:title" content="多线程">
-<meta property="og:url" content="http://yoursite.com/2017/09/11/多线程/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="多线程即在同一时间，可以做多件事情。  三种方法：一、继承线程类使用多线程，就可以做到盖伦在攻击提莫的同时，赏金猎人也在攻击盲僧设计一个类KillThread 继承Thread，并且重写run方法启动线程办法： 实例化一个KillThread对象，并且调用其start方法就可以观察到 赏金猎人攻击盲僧的同时，盖伦也在攻击提莫 1234567891011121314151617181920packa">
-<meta property="og:image" content="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D0%2C0%2C400%2C279%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=216c5f18a964034f1b82984692f35501/377adab44aed2e73e14317e98501a18b86d6fa49.jpg">
-<meta property="og:updated_time" content="2017-09-13T08:05:39.002Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="多线程">
-<meta name="twitter:description" content="多线程即在同一时间，可以做多件事情。  三种方法：一、继承线程类使用多线程，就可以做到盖伦在攻击提莫的同时，赏金猎人也在攻击盲僧设计一个类KillThread 继承Thread，并且重写run方法启动线程办法： 实例化一个KillThread对象，并且调用其start方法就可以观察到 赏金猎人攻击盲僧的同时，盖伦也在攻击提莫 1234567891011121314151617181920packa">
-<meta name="twitter:image" content="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D0%2C0%2C400%2C279%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=216c5f18a964034f1b82984692f35501/377adab44aed2e73e14317e98501a18b86d6fa49.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+extends base
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+block title
+  title= page.title + ' | ' + config.title
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
+block content
+  .post
+    h1.post-title= page.title
+    .post-meta
+      if theme.comment
+        include _partial/comment_count
+        +comment-count(page.path)
+      p
+        span.date= page.date.format(theme.date_formats.post)
+        if page.categories.length > 0
+          span
+            for category in page.categories.toArray()
+              a.category(href=url_for(category.path))= category.name 
+        if theme.busuanzi == true
+          span
+            i#busuanzi_container_page_pv
+              i#busuanzi_value_page_pv
+              i= '' + __('hits')
+    .post-content
+      != page.content
+    include _partial/tag
+    .post-share
+      include _partial/share
+    include _partial/post_nav
+    #comments
+      include _partial/comments
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
-  <link rel="stylesheet" href="/css/fashion.css" >
-  <link rel="stylesheet" href="/css/glyphs.css" >
+block tocmodel
+  if theme.toc.enable == true 
+    .widget(id='toc')
+      .widget-title
+        i(class='fa fa-fei')= __('contents')
+      != toc(page.content, {list_number: theme.toc.number})
 
-</head>
-
-
-
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
-
-
-  
-
-
-<header id="allheader" class="site-header" role="banner" 
-   >
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="Hexo" rel="home"> Hexo </a>
-            
-          </h1>
-          
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
-        
-          <section id="main" style="float:none;"><article id="post-多线程" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" class="article-title" itemprop="name">
-      多线程
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/09/11/多线程/" class="article-date">
-	  <time datetime="2017-09-11T09:07:32.566Z" itemprop="datePublished">September 11, 2017</time>
-	</a>
-
-       
-      
-	<span id="busuanzi_container_page_pv">
-	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-	</span>
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D0%2C0%2C400%2C279%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=216c5f18a964034f1b82984692f35501/377adab44aed2e73e14317e98501a18b86d6fa49.jpg" alt="多线程"><br>多线程即在同一时间，可以做多件事情。 </p>
-<h2 id="三种方法："><a href="#三种方法：" class="headerlink" title="三种方法："></a>三种方法：</h2><h3 id="一、继承线程类"><a href="#一、继承线程类" class="headerlink" title="一、继承线程类"></a>一、继承线程类</h3><p>使用多线程，就可以做到盖伦在攻击提莫的同时，赏金猎人也在攻击盲僧<br>设计一个类KillThread 继承Thread，并且重写run方法<br>启动线程办法： 实例化一个KillThread对象，并且调用其start方法<br>就可以观察到 赏金猎人攻击盲僧的同时，盖伦也在攻击提莫</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">package multiplethread;</div><div class="line"> </div><div class="line">import charactor.Hero;</div><div class="line"> </div><div class="line">public class KillThread extends Thread&#123;</div><div class="line">     </div><div class="line">    private Hero h1;</div><div class="line">    private Hero h2;</div><div class="line"> </div><div class="line">    public KillThread(Hero h1, Hero h2)&#123;</div><div class="line">        this.h1 = h1;</div><div class="line">        this.h2 = h2;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    public void run()&#123;</div><div class="line">        while(!h2.isDead())&#123;</div><div class="line">            h1.attackHero(h2);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">package multiplethread;</div><div class="line"> </div><div class="line">import charactor.Hero;</div><div class="line"> </div><div class="line">public class TestThread &#123;</div><div class="line"> </div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">         </div><div class="line">        Hero gareen = new Hero();</div><div class="line">        gareen.name = &quot;盖伦&quot;;</div><div class="line">        gareen.hp = 616;</div><div class="line">        gareen.damage = 50;</div><div class="line"> </div><div class="line">        Hero teemo = new Hero();</div><div class="line">        teemo.name = &quot;提莫&quot;;</div><div class="line">        teemo.hp = 300;</div><div class="line">        teemo.damage = 30;</div><div class="line">         </div><div class="line">        Hero bh = new Hero();</div><div class="line">        bh.name = &quot;赏金猎人&quot;;</div><div class="line">        bh.hp = 500;</div><div class="line">        bh.damage = 65;</div><div class="line">         </div><div class="line">        Hero leesin = new Hero();</div><div class="line">        leesin.name = &quot;盲僧&quot;;</div><div class="line">        leesin.hp = 455;</div><div class="line">        leesin.damage = 80;</div><div class="line">         </div><div class="line">        KillThread killThread1 = new KillThread(gareen,teemo);</div><div class="line">        killThread1.start();</div><div class="line">        KillThread killThread2 = new KillThread(bh,leesin);</div><div class="line">        killThread2.start();</div><div class="line">         </div><div class="line">    &#125;</div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="二、实现Runnable接口"><a href="#二、实现Runnable接口" class="headerlink" title="二、实现Runnable接口"></a>二、实现Runnable接口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">创建类Battle，实现Runnable接口</div><div class="line">启动的时候，首先创建一个Battle对象，然后再根据该battle对象创建一个线程对象，并启动</div><div class="line"> </div><div class="line">Battle battle1 = new Battle(gareen,teemo);</div><div class="line">new Thread(battle1).start();</div><div class="line"> </div><div class="line"></div><div class="line">battle1 对象实现了Runnable接口，所以有run方法，但是直接调用run方法，并不会启动一个新的线程。</div><div class="line">必须，借助一个线程对象的start()方法，才会启动一个新的线程。</div><div class="line">所以，在创建Thread对象的时候，把battle1作为构造方法的参数传递进去，这个线程启动的时候，就会去执行battle1.run()方法了。</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">package multiplethread;</div><div class="line"> </div><div class="line">import charactor.Hero;</div><div class="line"> </div><div class="line">public class Battle implements Runnable&#123;</div><div class="line">     </div><div class="line">    private Hero h1;</div><div class="line">    private Hero h2;</div><div class="line"> </div><div class="line">    public Battle(Hero h1, Hero h2)&#123;</div><div class="line">        this.h1 = h1;</div><div class="line">        this.h2 = h2;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    public void <span class="function"><span class="title">run</span></span>()&#123;</div><div class="line">        <span class="keyword">while</span>(!h2.isDead())&#123;</div><div class="line">            h1.attackHero(h2);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">package multiplethread;</div><div class="line"> </div><div class="line">import charactor.Hero;</div><div class="line"> </div><div class="line">public class TestThread &#123;</div><div class="line"> </div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">         </div><div class="line">        Hero gareen = new Hero();</div><div class="line">        gareen.name = <span class="string">"盖伦"</span>;</div><div class="line">        gareen.hp = 616;</div><div class="line">        gareen.damage = 50;</div><div class="line"> </div><div class="line">        Hero teemo = new Hero();</div><div class="line">        teemo.name = <span class="string">"提莫"</span>;</div><div class="line">        teemo.hp = 300;</div><div class="line">        teemo.damage = 30;</div><div class="line">         </div><div class="line">        Hero bh = new Hero();</div><div class="line">        bh.name = <span class="string">"赏金猎人"</span>;</div><div class="line">        bh.hp = 500;</div><div class="line">        bh.damage = 65;</div><div class="line">         </div><div class="line">        Hero leesin = new Hero();</div><div class="line">        leesin.name = <span class="string">"盲僧"</span>;</div><div class="line">        leesin.hp = 455;</div><div class="line">        leesin.damage = 80;</div><div class="line">         </div><div class="line">        Battle battle1 = new Battle(gareen,teemo);</div><div class="line">         </div><div class="line">        new Thread(battle1).start();</div><div class="line"> </div><div class="line">        Battle battle2 = new Battle(bh,leesin);</div><div class="line">        new Thread(battle2).start();</div><div class="line"> </div><div class="line">    &#125;</div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="三、匿名类"><a href="#三、匿名类" class="headerlink" title="三、匿名类"></a>三、匿名类</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用匿名类，继承Thread,重写run方法，直接在run方法中写业务代码</div><div class="line">匿名类的一个好处是可以很方便的访问外部的局部变量。</div><div class="line">前提是外部的局部变量需要被声明为final。(JDK7以后就不需要了)</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">package multiplethread;</div><div class="line">  </div><div class="line">import charactor.Hero;</div><div class="line">  </div><div class="line">public class TestThread &#123;</div><div class="line">  </div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">          </div><div class="line">        Hero gareen = new Hero();</div><div class="line">        gareen.name = <span class="string">"盖伦"</span>;</div><div class="line">        gareen.hp = 616;</div><div class="line">        gareen.damage = 50;</div><div class="line">  </div><div class="line">        Hero teemo = new Hero();</div><div class="line">        teemo.name = <span class="string">"提莫"</span>;</div><div class="line">        teemo.hp = 300;</div><div class="line">        teemo.damage = 30;</div><div class="line">          </div><div class="line">        Hero bh = new Hero();</div><div class="line">        bh.name = <span class="string">"赏金猎人"</span>;</div><div class="line">        bh.hp = 500;</div><div class="line">        bh.damage = 65;</div><div class="line">          </div><div class="line">        Hero leesin = new Hero();</div><div class="line">        leesin.name = <span class="string">"盲僧"</span>;</div><div class="line">        leesin.hp = 455;</div><div class="line">        leesin.damage = 80;</div><div class="line">          </div><div class="line">        //匿名类</div><div class="line">        Thread t1= new <span class="function"><span class="title">Thread</span></span>()&#123;</div><div class="line">            public void <span class="function"><span class="title">run</span></span>()&#123;</div><div class="line">                //匿名类中用到外部的局部变量teemo，必须把teemo声明为final</div><div class="line">                //但是在JDK7以后，就不是必须加final的了</div><div class="line">                <span class="keyword">while</span>(!teemo.isDead())&#123;</div><div class="line">                    gareen.attackHero(teemo);</div><div class="line">                &#125;               </div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">         </div><div class="line">        t1.start();</div><div class="line">          </div><div class="line">        Thread t2= new <span class="function"><span class="title">Thread</span></span>()&#123;</div><div class="line">            public void <span class="function"><span class="title">run</span></span>()&#123;</div><div class="line">                <span class="keyword">while</span>(!leesin.isDead())&#123;</div><div class="line">                    bh.attackHero(leesin);</div><div class="line">                &#125;               </div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        t2.start();</div><div class="line">         </div><div class="line">    &#125;</div><div class="line">      </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2017/09/11/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#三种方法："><span class="nav-number">1.</span> <span class="nav-text">三种方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、继承线程类"><span class="nav-number">1.1.</span> <span class="nav-text">一、继承线程类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、实现Runnable接口"><span class="nav-number">1.2.</span> <span class="nav-text">二、实现Runnable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、匿名类"><span class="nav-number">1.3.</span> <span class="nav-text">三、匿名类</span></a></li></ol></li></ol>
-    
-    </div>
-  </aside>
-</section>
-        
-      </div>
-
-    </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/categories" class="mobile-nav-link">Categories</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
-
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2017 Hexo All Rights Reserved.
-        
-            <span id="busuanzi_container_site_uv">
-              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
-              本站总访问量<span id="busuanzi_value_site_pv"></span>次
-            </span>
-          
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="/js/main.js"></script>
-
-
-
-
-
-
-
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
-
-
-
-	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-	</script>
-
-
-
-
-
-
-  </div>
-
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script>
-</body>
-</html>
+block pageOnly
+  if theme.toc.enable == true 
+    script(type='text/javascript', src=url_for(theme.js) + '/toctotop.js' + '?v=' + theme.version, async)
+  else 
+    script(type='text/javascript', src=url_for(theme.js) + '/totop.js' + '?v=' + theme.version, async)
+  include _partial/comments_js
